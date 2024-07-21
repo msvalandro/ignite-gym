@@ -1,5 +1,6 @@
 import backgroundImg from '@assets/background.png'
 import LogoSvg from '@assets/logo.svg'
+import { Input } from '@components/Input'
 import { Center, Heading, Image, Text, VStack } from 'native-base'
 
 export function SignIn() {
@@ -24,6 +25,9 @@ export function SignIn() {
         <Heading color="gray.100" fontFamily="heading" fontSize="xl" mb="6">
           Acesse sua conta
         </Heading>
+
+        <Input placeholder="E-mail" />
+        <Input placeholder="Senha" />
       </Center>
     </VStack>
   )
