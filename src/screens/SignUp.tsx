@@ -13,7 +13,7 @@ import {
 } from 'native-base'
 import { Platform } from 'react-native'
 
-export function SignIn() {
+export function SignUp() {
   return (
     <KeyboardAvoidingView
       flex={1}
@@ -47,7 +47,7 @@ export function SignIn() {
                 fontSize="xl"
                 mb="6"
               >
-                Acesse sua conta
+                Crie sua conta
               </Heading>
 
               <Input
@@ -55,18 +55,13 @@ export function SignIn() {
                 keyboardType="email-address"
                 autoCapitalize="none"
               />
+              <Input placeholder="Nome" />
               <Input placeholder="Senha" secureTextEntry />
 
-              <Button title="Acessar" />
+              <Button title="Criar e acessar" />
             </Center>
 
-            <Center mt={24}>
-              <Text color="gray.100" fontSize="sm" mb={3} fontFamily="body">
-                Ainda não tem acesso?
-              </Text>
-
-              <Button title="Criar conta" variant="outline" />
-            </Center>
+            <Button title="Voltar para o login" variant="outline" mt={24} />
           </VStack>
         </VStack>
       </ScrollView>
