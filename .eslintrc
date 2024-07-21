@@ -1,0 +1,13 @@
+{
+  "extends": ["@rocketseat/eslint-config/react"],
+  "plugins": ["simple-import-sort"],
+  "rules": {
+    "camelcase": [
+      "error",
+      {
+        "allow": ["NunitoSans_400Regular", "NunitoSans_700Bold"]
+      }
+    ],
+    "simple-import-sort/imports": "error"
+  }
+}
