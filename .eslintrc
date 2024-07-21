@@ -5,7 +5,7 @@
     "camelcase": [
       "error",
       {
-        "allow": ["NunitoSans_400Regular", "NunitoSans_700Bold"]
+        "allow": ["Roboto_400Regular", "Roboto_700Bold"]
       }
     ],
     "simple-import-sort/imports": "error"
