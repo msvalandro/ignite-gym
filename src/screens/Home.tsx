@@ -1,6 +1,6 @@
 import { Group } from '@components/Group'
 import { HomeHeader } from '@components/HomeHeader'
-import { FlatList, VStack } from 'native-base'
+import { FlatList, Heading, HStack, Text, VStack } from 'native-base'
 import { useState } from 'react'
 
 export function Home() {
@@ -27,6 +27,18 @@ export function Home() {
         my={10}
         maxH={10}
       />
+
+      <VStack flex={1} px={8}>
+        <HStack justifyContent="space-between">
+          <Heading fontFamily="heading" fontSize="md" color="gray.200">
+            Exercícios
+          </Heading>
+
+          <Text fontSize="sm" color="gray.200">
+            4
+          </Text>
+        </HStack>
+      </VStack>
     </VStack>
   )
 }
