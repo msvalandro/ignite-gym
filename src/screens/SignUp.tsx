@@ -32,6 +32,7 @@ export function SignUp() {
       >
         <VStack flex={1}>
           <Image
+            defaultSource={backgroundImg}
             source={backgroundImg}
             alt="Pessoas treinando em um ginásio"
             resizeMode="cover"
