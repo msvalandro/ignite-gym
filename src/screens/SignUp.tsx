@@ -23,7 +23,7 @@ export function SignUp() {
         contentContainerStyle={{ flexGrow: 1 }}
         showsVerticalScrollIndicator={false}
       >
-        <VStack flex={1} bg="gray.700">
+        <VStack flex={1}>
           <Image
             source={backgroundImg}
             alt="Pessoas treinando em um ginásio"
