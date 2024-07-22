@@ -1,12 +1,22 @@
-import { HStack, Text } from 'native-base'
+import { IPressableProps, Pressable, Text } from 'native-base'
 
-interface GroupProps {
+interface GroupProps extends IPressableProps {
   name: string
 }
 
-export function Group({ name }: GroupProps) {
+export function Group({ name, ...rest }: GroupProps) {
   return (
-    <HStack>
+    <Pressable
+      h={10}
+      w={24}
+      mr={3}
+      bg="gray.600"
+      rounded="md"
+      justifyContent="center"
+      alignItems="center"
+      overflow="hidden"
+      {...rest}
+    >
       <Text
         fontFamily="heading"
         fontSize="xs"
@@ -15,6 +25,6 @@ export function Group({ name }: GroupProps) {
       >
         {name}
       </Text>
-    </HStack>
+    </Pressable>
   )
 }
