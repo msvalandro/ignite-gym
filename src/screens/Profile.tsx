@@ -2,6 +2,7 @@ import { Button } from '@components/Button'
 import { Input } from '@components/Input'
 import { ScreenHeader } from '@components/ScreenHeader'
 import { UserPhoto } from '@components/UserPhoto'
+import * as FileSystem from 'expo-file-system'
 import * as ImagePicker from 'expo-image-picker'
 import {
   Center,
@@ -42,6 +43,10 @@ export function Profile() {
       if (!photoSelectedUri) {
         return
       }
+
+      const photoInfo = await FileSystem.getInfoAsync(photoSelectedUri)
+
+      console.log(photoInfo)
 
       setUserPhoto(photoSelectedUri)
     } catch (error) {
