@@ -12,13 +12,20 @@ import {
   Text,
   VStack,
 } from 'native-base'
+import { useState } from 'react'
 import { Platform } from 'react-native'
 
 export function SignUp() {
+  const [name, setName] = useState('')
+
   const navigation = useNavigation()
 
   function handleGoBack() {
     navigation.goBack()
+  }
+
+  function handleSignUp() {
+    console.log(name)
   }
 
   return (
@@ -58,15 +65,16 @@ export function SignUp() {
                 Crie sua conta
               </Heading>
 
+              <Input placeholder="Nome" value={name} onChangeText={setName} />
               <Input
                 placeholder="E-mail"
                 keyboardType="email-address"
                 autoCapitalize="none"
               />
-              <Input placeholder="Nome" />
               <Input placeholder="Senha" secureTextEntry />
+              <Input placeholder="Confirme a senha" secureTextEntry />
 
-              <Button title="Criar e acessar" />
+              <Button title="Criar e acessar" onPress={handleSignUp} />
             </Center>
 
             <Button
