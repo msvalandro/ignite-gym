@@ -13,7 +13,7 @@ import {
   VStack,
 } from 'native-base'
 import { useState } from 'react'
-import { TouchableOpacity } from 'react-native'
+import { Alert, TouchableOpacity } from 'react-native'
 
 const PHOTO_SIZE = 33
 
@@ -46,7 +46,11 @@ export function Profile() {
 
       const photoInfo = await FileSystem.getInfoAsync(photoSelectedUri)
 
-      console.log(photoInfo)
+      if (photoInfo.exists && photoInfo.size / 1024 / 1024 > 5) {
+        return Alert.alert(
+          'Essa imagem é muito grande. Escolha uma de até 5MB.',
+        )
+      }
 
       setUserPhoto(photoSelectedUri)
     } catch (error) {
