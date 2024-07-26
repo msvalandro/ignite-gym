@@ -16,7 +16,7 @@ import { Controller, useForm } from 'react-hook-form'
 import { Platform } from 'react-native'
 
 export function SignUp() {
-  const { control } = useForm()
+  const { control, handleSubmit } = useForm()
 
   const navigation = useNavigation()
 
@@ -24,8 +24,8 @@ export function SignUp() {
     navigation.goBack()
   }
 
-  function handleSignUp() {
-    console.log(name)
+  function handleSignUp(data) {
+    console.log(data)
   }
 
   return (
@@ -113,11 +113,16 @@ export function SignUp() {
                     secureTextEntry
                     value={value}
                     onChangeText={onChange}
+                    onSubmitEditing={handleSubmit(handleSignUp)}
+                    returnKeyType="send"
                   />
                 )}
               />
 
-              <Button title="Criar e acessar" onPress={handleSignUp} />
+              <Button
+                title="Criar e acessar"
+                onPress={handleSubmit(handleSignUp)}
+              />
             </Center>
 
             <Button
