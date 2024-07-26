@@ -27,7 +27,10 @@ interface FormDataProps {
 const signUpSchema = yup.object({
   name: yup.string().required('Informe o nome.'),
   email: yup.string().required('Informe o e-mail.').email('E-mail inválido.'),
-  password: yup.string().required('Informe a senha.'),
+  password: yup
+    .string()
+    .required('Informe a senha.')
+    .min(6, 'A senha deve ter pelo menos 6 dígitos.'),
   confirmPassword: yup.string().required('Confirme a senha.'),
 })
 
@@ -51,7 +54,9 @@ export function SignUp() {
     email,
     password,
     confirmPassword,
-  }: FormDataProps) {}
+  }: FormDataProps) {
+    console.log({ name, email, password, confirmPassword })
+  }
 
   return (
     <KeyboardAvoidingView
