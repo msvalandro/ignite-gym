@@ -15,8 +15,15 @@ import {
 import { Controller, useForm } from 'react-hook-form'
 import { Platform } from 'react-native'
 
+interface FormDataProps {
+  name: string
+  email: string
+  password: string
+  confirmPassword: string
+}
+
 export function SignUp() {
-  const { control, handleSubmit } = useForm()
+  const { control, handleSubmit } = useForm<FormDataProps>()
 
   const navigation = useNavigation()
 
@@ -24,9 +31,12 @@ export function SignUp() {
     navigation.goBack()
   }
 
-  function handleSignUp(data) {
-    console.log(data)
-  }
+  function handleSignUp({
+    name,
+    email,
+    password,
+    confirmPassword,
+  }: FormDataProps) {}
 
   return (
     <KeyboardAvoidingView
