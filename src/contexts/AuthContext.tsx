@@ -5,6 +5,7 @@ import { createContext, PropsWithChildren, useEffect, useState } from 'react'
 
 export interface AuthContextDataProps {
   user: UserDTO
+  isLoadingUserStorageData: boolean
   signIn: (email: string, password: string) => Promise<void>
 }
 
@@ -16,6 +17,7 @@ interface AuthContextProviderProps extends PropsWithChildren {}
 
 export function AuthContextProvider({ children }: AuthContextProviderProps) {
   const [user, setUser] = useState<UserDTO>({} as UserDTO)
+  const [isLoadingUserStorageData, setIsLoadingUserStorageData] = useState(true)
 
   async function signIn(email: string, password: string) {
     const { data } = await api.post('/sessions', { email, password })
@@ -31,6 +33,7 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
 
     if (loggedUser) {
       setUser(loggedUser)
+      setIsLoadingUserStorageData(false)
     }
   }
 
@@ -39,7 +42,7 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
   }, [])
 
   return (
-    <AuthContext.Provider value={{ user, signIn }}>
+    <AuthContext.Provider value={{ user, signIn, isLoadingUserStorageData }}>
       {children}
     </AuthContext.Provider>
   )
