@@ -43,7 +43,11 @@ export function SignIn() {
   })
 
   async function handleSignIn({ email, password }: FormDataProps) {
-    signIn(email, password)
+    try {
+      signIn(email, password)
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   function handleNewAccount() {
