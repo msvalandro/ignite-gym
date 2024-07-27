@@ -52,13 +52,21 @@ export function SignUp() {
     navigation.goBack()
   }
 
-  function handleSignUp({
-    name,
-    email,
-    password,
-    confirmPassword,
-  }: FormDataProps) {
-    console.log({ name, email, password, confirmPassword })
+  async function handleSignUp({ name, email, password }: FormDataProps) {
+    try {
+      const response = await fetch('http://10.52.197.122:3333/users', {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ name, email, password }),
+      })
+
+      console.log(response)
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   return (
