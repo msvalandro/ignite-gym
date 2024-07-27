@@ -3,6 +3,7 @@ import LogoSvg from '@assets/logo.svg'
 import { Button } from '@components/Button'
 import { Input } from '@components/Input'
 import { yupResolver } from '@hookform/resolvers/yup'
+import { useAuth } from '@hooks/useAuth'
 import { useNavigation } from '@react-navigation/native'
 import { AuthNavigatorRoutesProps } from '@routes/auth.routes'
 import {
@@ -29,6 +30,10 @@ const signInSchema = yup.object({
 })
 
 export function SignIn() {
+  const { signIn } = useAuth()
+
+  const navigation = useNavigation<AuthNavigatorRoutesProps>()
+
   const {
     control,
     handleSubmit,
@@ -37,10 +42,8 @@ export function SignIn() {
     resolver: yupResolver(signInSchema),
   })
 
-  const navigation = useNavigation<AuthNavigatorRoutesProps>()
-
   async function handleSignIn({ email, password }: FormDataProps) {
-    console.log({ email, password })
+    signIn(email, password)
   }
 
   function handleNewAccount() {

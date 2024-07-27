@@ -3,6 +3,7 @@ import { createContext, PropsWithChildren, useState } from 'react'
 
 export interface AuthContextDataProps {
   user: UserDTO
+  signIn: (email: string, password: string) => void
 }
 
 export const AuthContext = createContext<AuthContextDataProps>(
@@ -19,7 +20,13 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
     avatar: 'msvalandro.png',
   })
 
+  function signIn(email: string, password: string) {
+    setUser({ id: '', name: '', email, avatar: '' })
+  }
+
   return (
-    <AuthContext.Provider value={{ user }}>{children}</AuthContext.Provider>
+    <AuthContext.Provider value={{ user, signIn }}>
+      {children}
+    </AuthContext.Provider>
   )
 }
