@@ -5,6 +5,7 @@ import { Input } from '@components/Input'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useNavigation } from '@react-navigation/native'
 import { api } from '@services/api'
+import axios from 'axios'
 import {
   Center,
   Heading,
@@ -15,7 +16,7 @@ import {
   VStack,
 } from 'native-base'
 import { Controller, useForm } from 'react-hook-form'
-import { Platform } from 'react-native'
+import { Alert, Platform } from 'react-native'
 import * as yup from 'yup'
 
 interface FormDataProps {
@@ -59,7 +60,9 @@ export function SignUp() {
 
       console.log(data)
     } catch (error) {
-      console.log(error)
+      if (axios.isAxiosError(error)) {
+        Alert.alert(error.response?.data.message)
+      }
     }
   }
 
