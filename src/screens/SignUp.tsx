@@ -62,9 +62,12 @@ export function SignUp() {
         },
         body: JSON.stringify({ name, email, password }),
       })
+      const data = await response.json()
 
-      console.log(response)
+      console.log(response.status)
+      console.log(data)
     } catch (error) {
+      console.log('errou!!')
       console.log(error)
     }
   }
