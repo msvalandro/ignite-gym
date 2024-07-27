@@ -1,14 +1,13 @@
-import { AuthContext } from '@contexts/AuthContext'
+import { useAuth } from '@hooks/useAuth'
 import { DefaultTheme, NavigationContainer } from '@react-navigation/native'
 import { Box, useTheme } from 'native-base'
-import { useContext } from 'react'
 
 import { AppRoutes } from './app.routes'
 import { AuthRoutes } from './auth.routes'
 
 export function Routes() {
-  const contextData = useContext(AuthContext)
-  console.log('USUARIO LOGADO =>', contextData)
+  const { user } = useAuth()
+  console.log('USUARIO LOGADO =>', user)
 
   const { colors } = useTheme()
 
