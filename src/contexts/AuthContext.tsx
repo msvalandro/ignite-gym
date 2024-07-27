@@ -1,5 +1,6 @@
 import { UserDTO } from '@dtos/UserDTO'
 import { api } from '@services/api'
+import { storageUserSave } from '@storage/storageUser'
 import { createContext, PropsWithChildren, useState } from 'react'
 
 export interface AuthContextDataProps {
@@ -21,6 +22,7 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
 
     if (data.user) {
       setUser(data.user)
+      await storageUserSave(data.user)
     }
   }
 
