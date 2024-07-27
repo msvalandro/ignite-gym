@@ -6,6 +6,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { useAuth } from '@hooks/useAuth'
 import { useNavigation } from '@react-navigation/native'
 import { AuthNavigatorRoutesProps } from '@routes/auth.routes'
+import { AppError } from '@utils/AppError'
 import {
   Center,
   Heading,
@@ -13,8 +14,10 @@ import {
   KeyboardAvoidingView,
   ScrollView,
   Text,
+  useToast,
   VStack,
 } from 'native-base'
+import { useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { Platform } from 'react-native'
 import * as yup from 'yup'
@@ -30,7 +33,11 @@ const signInSchema = yup.object({
 })
 
 export function SignIn() {
+  const [isLoading, setIsLoading] = useState(false)
+
   const { signIn } = useAuth()
+
+  const toast = useToast()
 
   const navigation = useNavigation<AuthNavigatorRoutesProps>()
 
@@ -43,10 +50,23 @@ export function SignIn() {
   })
 
   async function handleSignIn({ email, password }: FormDataProps) {
+    setIsLoading(true)
+
     try {
-      signIn(email, password)
+      await signIn(email, password)
     } catch (error) {
-      console.log(error)
+      const isAppError = error instanceof AppError
+      const title = isAppError
+        ? error.message
+        : 'Não foi possível entrar. Tente novamente mais tarde.'
+
+      setIsLoading(false)
+
+      toast.show({
+        title,
+        placement: 'top',
+        bgColor: 'red.500',
+      })
     }
   }
 
@@ -119,7 +139,11 @@ export function SignIn() {
                 )}
               />
 
-              <Button title="Acessar" onPress={handleSubmit(handleSignIn)} />
+              <Button
+                title="Acessar"
+                onPress={handleSubmit(handleSignIn)}
+                isLoading={isLoading}
+              />
             </Center>
 
             <Center mt={24}>
