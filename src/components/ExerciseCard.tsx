@@ -1,5 +1,6 @@
 import { ExerciseDTO } from '@dtos/ExerciseDTO'
 import { Entypo } from '@expo/vector-icons'
+import { api } from '@services/api'
 import { Heading, HStack, Icon, Image, Text, VStack } from 'native-base'
 import { TouchableOpacity, TouchableOpacityProps } from 'react-native'
 
@@ -22,7 +23,7 @@ export function ExerciseCard({ data, ...rest }: ExerciseCardProps) {
       >
         <Image
           source={{
-            uri: 'https://imgs.search.brave.com/r5VtJPAsfvh1cIWt1o8mW_my8keaQrCCQuz_DAQK1Ps/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9jb250/ZXVkby5pbWd1b2wu/Y29tLmJyL2MvZW50/cmV0ZW5pbWVudG8v/MGMvMjAxOS8xMi8w/My9yZW1hZGEtdW5p/bGF0ZXJhbC1jb20t/aGFsdGVyZXMtMTU3/NTQwMjEwMDUzOF92/Ml80NTB4NDUwLmpw/Zw',
+            uri: `${api.defaults.baseURL}/exercise/thumb/${thumb}`,
           }}
           alt="Um homem executando o exercício 'remada unilateral' em um ginásio"
           h={16}
