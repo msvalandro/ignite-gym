@@ -1,6 +1,7 @@
 import { ExerciseCard } from '@components/ExerciseCard'
 import { Group } from '@components/Group'
 import { HomeHeader } from '@components/HomeHeader'
+import { ExerciseDTO } from '@dtos/ExerciseDTO'
 import { useFocusEffect, useNavigation } from '@react-navigation/native'
 import { AppNavigatorRouterProps } from '@routes/app.routes'
 import { api } from '@services/api'
@@ -12,12 +13,7 @@ export function Home() {
   const [groups, setGroups] = useState<string[]>([])
   const [groupSelected, setGroupSelected] = useState('costas')
 
-  const [exercises, setExercises] = useState([
-    'Puxada frontal',
-    'Remada curvada',
-    'Remada unilateral',
-    'Levantamento terra',
-  ])
+  const [exercises, setExercises] = useState<ExerciseDTO[]>([])
 
   const navigation = useNavigation<AppNavigatorRouterProps>()
 
@@ -45,7 +41,8 @@ export function Home() {
   async function fetchExercisesByGroup() {
     try {
       const { data } = await api.get(`/exercises/bygroup/${groupSelected}`)
-      console.log(data)
+
+      setExercises(data)
     } catch (error) {
       const isAppError = error instanceof AppError
       const title = isAppError
@@ -101,8 +98,8 @@ export function Home() {
 
         <FlatList
           data={exercises}
-          keyExtractor={(item) => item}
-          renderItem={() => (
+          keyExtractor={(item) => item.id}
+          renderItem={({ item }) => (
             <ExerciseCard onPress={handleOpenExerciseDetails} />
           )}
           showsVerticalScrollIndicator={false}
