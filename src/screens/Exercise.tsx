@@ -2,8 +2,15 @@ import BodySvg from '@assets/body.svg'
 import RepetitionsSvg from '@assets/repetitions.svg'
 import SeriesSvg from '@assets/series.svg'
 import { Button } from '@components/Button'
+import { ExerciseDTO } from '@dtos/ExerciseDTO'
 import { Feather } from '@expo/vector-icons'
-import { useNavigation, useRoute } from '@react-navigation/native'
+import {
+  useFocusEffect,
+  useNavigation,
+  useRoute,
+} from '@react-navigation/native'
+import { api } from '@services/api'
+import { AppError } from '@utils/AppError'
 import {
   Box,
   Heading,
@@ -12,8 +19,10 @@ import {
   Image,
   ScrollView,
   Text,
+  useToast,
   VStack,
 } from 'native-base'
+import { useCallback, useEffect, useState } from 'react'
 import { TouchableOpacity } from 'react-native'
 
 interface RouteParams {
@@ -21,6 +30,10 @@ interface RouteParams {
 }
 
 export function Exercise() {
+  const [exercise, setExercise] = useState<ExerciseDTO>({} as ExerciseDTO)
+
+  const toast = useToast()
+
   const navigation = useNavigation()
 
   const route = useRoute()
@@ -30,6 +43,25 @@ export function Exercise() {
   function handleGoBack() {
     navigation.goBack()
   }
+
+  async function fetchExerciseDetails() {
+    try {
+      const { data } = await api.get(`/exercises/${exerciseId}`)
+
+      setExercise(data)
+    } catch (error) {
+      const isAppError = error instanceof AppError
+      const title = isAppError
+        ? error.message
+        : 'Não foi possível carregar os detalhes do exercício.'
+
+      toast.show({ title, placement: 'top', bgColor: 'red.500' })
+    }
+  }
+
+  useEffect(() => {
+    fetchExerciseDetails()
+  }, [exerciseId])
 
   return (
     <VStack flex={1}>
@@ -50,14 +82,14 @@ export function Exercise() {
             color="gray.100"
             flexShrink={1}
           >
-            Puxada frontal
+            {exercise.name}
           </Heading>
 
           <HStack alignItems="center">
             <BodySvg />
 
             <Text color="gray.200" textTransform="capitalize" ml={1}>
-              Costas
+              {exercise.group}
             </Text>
           </HStack>
         </HStack>
@@ -65,17 +97,18 @@ export function Exercise() {
 
       <ScrollView>
         <VStack p={8}>
-          <Image
-            h={80}
-            w="full"
-            source={{
-              uri: 'https://imgs.search.brave.com/r5VtJPAsfvh1cIWt1o8mW_my8keaQrCCQuz_DAQK1Ps/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9jb250/ZXVkby5pbWd1b2wu/Y29tLmJyL2MvZW50/cmV0ZW5pbWVudG8v/MGMvMjAxOS8xMi8w/My9yZW1hZGEtdW5p/bGF0ZXJhbC1jb20t/aGFsdGVyZXMtMTU3/NTQwMjEwMDUzOF92/Ml80NTB4NDUwLmpw/Zw',
-            }}
-            alt="Puxada frontal"
-            mb={3}
-            resizeMode="contain"
-            rounded="xl"
-          />
+          <Box rounded="xl" mb={3} overflow="hidden">
+            <Image
+              h={80}
+              w="full"
+              source={{
+                uri: `${api.defaults.baseURL}/exercise/demo/${exercise.demo}`,
+              }}
+              alt={exercise.name}
+              resizeMode="contain"
+              rounded="xl"
+            />
+          </Box>
 
           <Box bg="gray.600" rounded="md" pb={4} px={4}>
             <HStack
@@ -87,14 +120,14 @@ export function Exercise() {
               <HStack>
                 <SeriesSvg />
                 <Text color="gray.200" ml={2}>
-                  3 Séries
+                  {exercise.series} Séries
                 </Text>
               </HStack>
 
               <HStack>
                 <RepetitionsSvg />
                 <Text color="gray.200" ml={2}>
-                  12 Repetições
+                  {exercise.repetitions} Repetições
                 </Text>
               </HStack>
             </HStack>

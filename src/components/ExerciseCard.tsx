@@ -25,7 +25,7 @@ export function ExerciseCard({ data, ...rest }: ExerciseCardProps) {
           source={{
             uri: `${api.defaults.baseURL}/exercise/thumb/${thumb}`,
           }}
-          alt="Um homem executando o exercício 'remada unilateral' em um ginásio"
+          alt={name}
           h={16}
           w={16}
           rounded="md"
