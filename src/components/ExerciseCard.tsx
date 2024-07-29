@@ -1,10 +1,15 @@
+import { ExerciseDTO } from '@dtos/ExerciseDTO'
 import { Entypo } from '@expo/vector-icons'
 import { Heading, HStack, Icon, Image, Text, VStack } from 'native-base'
 import { TouchableOpacity, TouchableOpacityProps } from 'react-native'
 
-interface ExerciseCardProps extends TouchableOpacityProps {}
+interface ExerciseCardProps extends TouchableOpacityProps {
+  data: ExerciseDTO
+}
 
-export function ExerciseCard({ ...rest }: ExerciseCardProps) {
+export function ExerciseCard({ data, ...rest }: ExerciseCardProps) {
+  const { name, series, repetitions, thumb } = data
+
   return (
     <TouchableOpacity {...rest}>
       <HStack
@@ -29,11 +34,11 @@ export function ExerciseCard({ ...rest }: ExerciseCardProps) {
 
         <VStack flex={1}>
           <Heading fontFamily="heading" fontSize="lg" color="white">
-            Remada unilateral
+            {name}
           </Heading>
 
           <Text fontSize="sm" color="gray.200" mt={1} numberOfLines={2}>
-            3 séries x 12 repetições
+            {series} séries x {repetitions} repetições
           </Text>
         </VStack>
 
