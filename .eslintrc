@@ -3,6 +3,7 @@
   "plugins": ["simple-import-sort"],
   "rules": {
     "camelcase": "off",
+    "no-async-promise-executor": "off",
     "simple-import-sort/imports": "error"
   }
 }
