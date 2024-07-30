@@ -33,6 +33,17 @@ interface FormDataProps {
 const profileSchema = yup.object({
   name: yup.string().required('Informe o nome.'),
   email: yup.string().email(),
+  oldPasswod: yup.string(),
+  password: yup
+    .string()
+    .min(6, 'A senha deve ter pelo menos 6 caracteres.')
+    .nullable()
+    .transform((value) => value || null),
+  confirmPassword: yup
+    .string()
+    .nullable()
+    .transform((value) => value || null)
+    .oneOf([yup.ref('password'), ''], 'A confirmação de senha não confere.'),
 })
 
 export function Profile() {
