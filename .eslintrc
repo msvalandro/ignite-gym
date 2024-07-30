@@ -2,12 +2,7 @@
   "extends": ["@rocketseat/eslint-config/react"],
   "plugins": ["simple-import-sort"],
   "rules": {
-    "camelcase": [
-      "error",
-      {
-        "allow": ["Roboto_400Regular", "Roboto_700Bold", "exercise_id"]
-      }
-    ],
+    "camelcase": "off",
     "simple-import-sort/imports": "error"
   }
 }

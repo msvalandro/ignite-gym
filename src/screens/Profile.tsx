@@ -35,13 +35,13 @@ interface FormDataProps {
 const profileSchema = yup.object({
   name: yup.string().required('Informe o nome.'),
   email: yup.string().required('Informe o e-mail.'),
-  oldPassword: yup.string().optional(),
+  old_password: yup.string().optional(),
   password: yup
     .string()
     .min(6, 'A senha deve ter pelo menos 6 dígitos.')
     .nullable()
     .transform((value) => value || null),
-  confirmPassword: yup
+  confirm_password: yup
     .string()
     .nullable()
     .transform((value) => value || null)
@@ -64,7 +64,7 @@ export function Profile() {
     'https://github.com/msvalandro.png',
   )
 
-  const { user } = useAuth()
+  const { user, updateUserProfile } = useAuth()
 
   const toast = useToast()
 
@@ -123,7 +123,11 @@ export function Profile() {
     try {
       setIsUpdating(true)
 
+      const userUpdated = user
+      userUpdated.name = data.name
+
       await api.put('/users', data)
+      await updateUserProfile(userUpdated)
 
       toast.show({
         title: 'Perfil atualizado com sucesso!',
@@ -135,7 +139,7 @@ export function Profile() {
       const title = isAppError
         ? error.message
         : 'Não foi possível atualizar os dados do perfil.'
-      console.log(error)
+
       toast.show({
         title,
         placement: 'top',
