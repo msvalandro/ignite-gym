@@ -96,6 +96,7 @@ export function Profile() {
       }
 
       const photoSelectedUri = photoSelected.assets[0].uri
+      const photoSelectedType = photoSelected.assets[0].type
 
       if (!photoSelectedUri) {
         return
@@ -111,7 +112,28 @@ export function Profile() {
         })
       }
 
-      setUserPhoto(photoSelectedUri)
+      const fileExtension = photoSelectedUri.split('.').pop()
+
+      const photoFile = {
+        name: `${user.name}.${fileExtension}`.toLowerCase(),
+        uri: photoSelectedUri,
+        type: `${photoSelectedType}/${fileExtension}`,
+      } as never
+
+      const userPhotoUploadForm = new FormData()
+      userPhotoUploadForm.append('avatar', photoFile)
+
+      await api.patch('/users/avatar', userPhotoUploadForm, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      })
+
+      toast.show({
+        title: 'Foto atualizada!',
+        placement: 'top',
+        bgColor: 'green.500',
+      })
     } catch (error) {
       console.log(error)
     } finally {
