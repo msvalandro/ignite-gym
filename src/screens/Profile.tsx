@@ -25,25 +25,33 @@ const PHOTO_SIZE = 33
 interface FormDataProps {
   name: string
   email: string
-  password: string
-  oldPassword: string
-  confirmPassword: string
+  oldPassword?: string
+  password?: string | null
+  confirmPassword?: string | null
 }
 
 const profileSchema = yup.object({
   name: yup.string().required('Informe o nome.'),
-  email: yup.string().email(),
-  oldPasswod: yup.string(),
+  email: yup.string().required('Informe o e-mail.'),
+  oldPassword: yup.string().optional(),
   password: yup
     .string()
-    .min(6, 'A senha deve ter pelo menos 6 caracteres.')
+    .min(6, 'A senha deve ter pelo menos 6 dígitos.')
     .nullable()
     .transform((value) => value || null),
   confirmPassword: yup
     .string()
     .nullable()
     .transform((value) => value || null)
-    .oneOf([yup.ref('password'), ''], 'A confirmação de senha não confere.'),
+    .oneOf([yup.ref('password'), null], 'As senhas devem ser iguais.')
+    .when('password', {
+      is: (Field: unknown) => Field,
+      then: (schema) =>
+        schema
+          .nullable()
+          .required('Informe a confirmação da senha.')
+          .transform((value) => value || null),
+    }),
 })
 
 export function Profile() {
