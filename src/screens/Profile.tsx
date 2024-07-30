@@ -1,3 +1,4 @@
+import DefaultUserPhotoImg from '@assets/userPhotoDefault.png'
 import { Button } from '@components/Button'
 import { Input } from '@components/Input'
 import { ScreenHeader } from '@components/ScreenHeader'
@@ -60,9 +61,6 @@ export function Profile() {
   const [isUpdating, setIsUpdating] = useState(false)
 
   const [photoIsLoading, setPhotoIsLoading] = useState(false)
-  const [userPhoto, setUserPhoto] = useState(
-    'https://github.com/msvalandro.png',
-  )
 
   const { user, updateUserProfile } = useAuth()
 
@@ -123,11 +121,16 @@ export function Profile() {
       const userPhotoUploadForm = new FormData()
       userPhotoUploadForm.append('avatar', photoFile)
 
-      await api.patch('/users/avatar', userPhotoUploadForm, {
+      const { data } = await api.patch('/users/avatar', userPhotoUploadForm, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
       })
+
+      const userUpdated = user
+      userUpdated.avatar = data.avatar
+
+      await updateUserProfile(userUpdated)
 
       toast.show({
         title: 'Foto atualizada!',
@@ -187,7 +190,14 @@ export function Profile() {
               endColor="gray.400"
             />
           ) : (
-            <UserPhoto source={{ uri: userPhoto }} size={PHOTO_SIZE} />
+            <UserPhoto
+              source={
+                user.avatar
+                  ? { uri: `${api.defaults.baseURL}/avatar/${user.avatar}` }
+                  : DefaultUserPhotoImg
+              }
+              size={PHOTO_SIZE}
+            />
           )}
 
           <TouchableOpacity onPress={handleUserPhotoSelect}>
