@@ -35,12 +35,16 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
     api.defaults.headers.common.Authorization = `Bearer ${token}`
   }
 
-  async function storageUserAndTokenSave(user: UserDTO, token: string) {
+  async function storageUserAndTokenSave(
+    user: UserDTO,
+    token: string,
+    refresh_token: string,
+  ) {
     try {
       setIsLoadingUserStorageData(true)
 
       await storageUserSave(user)
-      await storageAuthTokenSave(token)
+      await storageAuthTokenSave({ token, refresh_token })
 
       setUserAndToken(user, token)
     } finally {
@@ -51,8 +55,8 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
   async function signIn(email: string, password: string) {
     const { data } = await api.post('/sessions', { email, password })
 
-    if (data.user && data.token) {
-      await storageUserAndTokenSave(data.user, data.token)
+    if (data.user && data.token && data.refresh_token) {
+      await storageUserAndTokenSave(data.user, data.token, data.refresh_token)
     }
   }
 
@@ -78,7 +82,7 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
       setIsLoadingUserStorageData(true)
 
       const loggedUser = await storageUserGet()
-      const token = await storageAuthTokenGet()
+      const { token } = await storageAuthTokenGet()
 
       if (loggedUser && token) {
         setUserAndToken(loggedUser, token)
